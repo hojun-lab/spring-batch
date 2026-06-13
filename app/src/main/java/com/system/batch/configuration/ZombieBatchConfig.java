@@ -36,8 +36,8 @@ public class ZombieBatchConfig {
 
     @Bean
     public Job zombieCleanupJob() {
-    	return new JobBuilder("zombileCleanupJob", jobRepository)
-		.start(zombieCleanupStep())
-		.build();
+    	return new JobBuilder("zombieCleanupJob", jobRepository)
+                .start(zombieCleanupStep())
+                .build();
     }
 }
