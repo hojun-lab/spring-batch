@@ -35,7 +35,7 @@ public class FileCleanupBatchConfig {
     }
 
     @Bean
-    public Job deleOldFilesJob(JobRepository jobRepository) {
+    public Job deleteOldFilesJob(JobRepository jobRepository) {
         return new JobBuilder("deleteOldFilesJob", jobRepository)
                 .start(deleteOldFilesStep())
                 .build();
