@@ -1,6 +1,5 @@
 package com.system.batch.configuration;
 
-import com.system.batch.tasklet.ZombieProcessCleanupTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -12,32 +11,33 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.system.batch.tasklet.ZombieProcessCleanupTasklet;
+
 @Configuration
 public class ZombieBatchConfig {
-    private final JobRepository jobRepository;
-    private final PlatformTransactionManager transactionManager;
+  private final JobRepository jobRepository;
+  private final PlatformTransactionManager transactionManager;
 
-    public ZombieBatchConfig(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-        this.jobRepository = jobRepository;
-        this.transactionManager = transactionManager;
-    }
+  public ZombieBatchConfig(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+    this.jobRepository = jobRepository;
+    this.transactionManager = transactionManager;
+  }
 
-    @Bean
-    public Tasklet zombieProcessCleanupTasklet() {
-        return new ZombieProcessCleanupTasklet();
-    }
+  @Bean
+  public Tasklet zombieProcessCleanupTasklet() {
+    return new ZombieProcessCleanupTasklet();
+  }
 
-    @Bean
-    public Step zombieCleanupStep() {
-        return new StepBuilder("zombieCleanupStep", jobRepository)
-                .tasklet(zombieProcessCleanupTasklet(), new ResourcelessTransactionManager())
-                .build();
-    }
+  @Bean
+  public Step zombieCleanupStep() {
+    return new StepBuilder("zombieCleanupStep", jobRepository)
+        .tasklet(zombieProcessCleanupTasklet(), new ResourcelessTransactionManager())
+        .build();
+  }
 
-    @Bean
-    public Job zombieCleanupJob() {
-    	return new JobBuilder("zombieCleanupJob", jobRepository)
-                .start(zombieCleanupStep())
-                .build();
-    }
+  @Bean
+  public Job zombieCleanupJob() {
+    return new JobBuilder("zombieCleanupJob", jobRepository).start(zombieCleanupStep())
+        .build();
+  }
 }
