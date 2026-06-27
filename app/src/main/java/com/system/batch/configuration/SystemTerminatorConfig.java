@@ -30,7 +30,7 @@ public class SystemTerminatorConfig {
   @Bean
   public Step terminatorStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager,
       Tasklet terminationTasklet) {
-    return new StepBuilder("terminatorStep", jobRepository)
+    return new StepBuilder("terminatorStep-2", jobRepository)
         .tasklet(terminationTasklet, platformTransactionManager)
         .build();
   }
