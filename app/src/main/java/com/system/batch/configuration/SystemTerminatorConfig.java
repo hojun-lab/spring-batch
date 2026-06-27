@@ -1,6 +1,7 @@
 package com.system.batch.configuration;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.slf4j.LoggerFactory;
 
 @Configuration
 public class SystemTerminatorConfig {
@@ -29,9 +29,9 @@ public class SystemTerminatorConfig {
 
   @Bean
   public Step terminatorStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager,
-      Tasklet terminationTasklet) {
+      Tasklet terminatorTasklet) {
     return new StepBuilder("terminatorStep-2", jobRepository)
-        .tasklet(terminationTasklet, platformTransactionManager)
+        .tasklet(terminatorTasklet, platformTransactionManager)
         .build();
   }
 
