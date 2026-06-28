@@ -9,18 +9,15 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import com.system.batch.tasklet.ZombieProcessCleanupTasklet;
 
 @Configuration
 public class ZombieBatchConfig {
   private final JobRepository jobRepository;
-  private final PlatformTransactionManager transactionManager;
 
-  public ZombieBatchConfig(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+  public ZombieBatchConfig(JobRepository jobRepository) {
     this.jobRepository = jobRepository;
-    this.transactionManager = transactionManager;
   }
 
   @Bean
