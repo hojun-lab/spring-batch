@@ -15,32 +15,30 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-@Configuration
 public class TerminatorConfig {
 
   private final Logger log = org.slf4j.LoggerFactory.getLogger(TerminatorConfig.class);
 
   @Bean
-  public Job terminatorJob(JobRepository jobRepository, Step terminationStep) {
+  public Job terminatorJob(JobRepository jobRepository, Step terminatorStep) {
     return new JobBuilder("terminatorJob", jobRepository)
-        .start(terminationStep)
+        .start(terminatorStep)
         .build();
   }
 
   @Bean
   public Step terminationStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
-      Tasklet terminationTasklet) {
+      Tasklet terminatorTasklet) {
     return new StepBuilder("terminationStep", jobRepository)
-        .tasklet(terminationTasklet, transactionManager)
+        .tasklet(terminatorTasklet, transactionManager)
         .build();
   }
 
   @Bean
   @StepScope
-  public Tasklet terminationTasklet(
+  public Tasklet terminatorTasklet(
       @Value("#{jobParameters['executionDate']}") LocalDate executionDate,
       @Value("#{jobParameters['startTime']}") LocalDateTime startTime) {
     return (contribution, chunkContext) -> {
